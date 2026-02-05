@@ -1,0 +1,225 @@
+/**
+ * Layout CSS - Container, Sections, Responsive
+ */
+
+.app-container {
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.section {
+    width: 100%;
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+/* Start Page */
+.start-page {
+    text-align: center;
+    padding: 60px 24px;
+}
+
+.start-page h1 {
+    margin-bottom: 16px;
+}
+
+.start-page .subtitle {
+    font-size: 1.125rem;
+    color: var(--text-sub);
+    margin-bottom: 40px;
+    line-height: 1.6;
+}
+
+.start-page .description {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin-bottom: 48px;
+    line-height: 1.8;
+}
+
+/* Test Page */
+.test-page {
+    padding: 40px 24px;
+}
+
+.question-container {
+    margin-bottom: 32px;
+}
+
+.question-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.question-number {
+    font-size: 0.875rem;
+    color: var(--text-light);
+    margin-bottom: 8px;
+}
+
+.question-text {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 16px;
+}
+
+.choices-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+/* Result Page */
+.result-page {
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.result-card {
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 40px 32px;
+    box-shadow: var(--shadow-lg);
+    margin-bottom: 32px;
+}
+
+.result-type {
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 12px;
+    letter-spacing: -0.04em;
+}
+
+.result-nickname {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 16px;
+}
+
+.result-description {
+    font-size: 1rem;
+    color: var(--text-sub);
+    line-height: 1.8;
+    margin-bottom: 32px;
+}
+
+.result-scores {
+    margin: 32px 0;
+    padding: 24px;
+    background: var(--bg-subtle);
+    border-radius: var(--border-radius);
+}
+
+.result-scores h3 {
+    margin-bottom: 24px;
+    text-align: center;
+}
+
+.result-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+}
+
+/* VS Divider */
+.vs-divider {
+    text-align: center;
+    margin: 24px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-light);
+}
+
+/* Footer */
+.footer {
+    margin-top: 60px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border-color);
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--text-light);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .app-container {
+        padding: 24px 16px;
+    }
+
+    .start-page {
+        padding: 40px 16px;
+    }
+
+    .start-page h1 {
+        font-size: 2rem;
+    }
+
+    .test-page {
+        padding: 24px 16px;
+    }
+
+    .choices-container {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .choice-card {
+        padding: 32px 20px;
+    }
+
+    .choice-card .emoji {
+        font-size: 3rem;
+    }
+
+    .result-page {
+        padding: 24px 16px;
+    }
+
+    .result-card {
+        padding: 32px 24px;
+    }
+
+    .result-type {
+        font-size: 2.5rem;
+    }
+
+    .result-nickname {
+        font-size: 1.25rem;
+    }
+
+    .result-actions {
+        flex-direction: column;
+    }
+
+    .result-actions .btn {
+        width: 100%;
+    }
+}
+
+@media (max-width: 425px) {
+    .start-page h1 {
+        font-size: 1.75rem;
+    }
+
+    .question-text {
+        font-size: 1.125rem;
+    }
+
+    .result-type {
+        font-size: 2rem;
+    }
+
+    .choice-card .emoji {
+        font-size: 2.5rem;
+    }
+}
