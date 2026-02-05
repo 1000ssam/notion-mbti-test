@@ -156,28 +156,13 @@ async function renderResultPage() {
       <div class="notion-form">
         <h3>📝 노션에 결과 저장하기</h3>
         <p style="font-size: 0.875rem; color: var(--text-light); margin-bottom: 16px;">
-          결과를 노션 데이터베이스에 자동으로 저장할 수 있어요
+          결과를 자동으로 데이터베이스에 저장해드려요
         </p>
 
         <div class="form-group">
           <label class="form-label">이름 (선택)</label>
           <input type="text" id="user-name" class="form-input" placeholder="홍길동">
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Notion Database ID</label>
-          <input type="text" id="database-id" class="form-input" placeholder="32자리 Database ID">
-          <span class="form-hint">데이터베이스 URL의 마지막 32자리 문자열</span>
-        </div>
-
-        <div class="form-group">
-          <label class="form-label">Notion API Key</label>
-          <input type="password" id="api-key" class="form-input" placeholder="secret_...">
-          <span class="form-hint">
-            <a href="https://www.notion.so/my-integrations" target="_blank" style="color: var(--accent);">
-              Notion Integration 페이지
-            </a>에서 발급받을 수 있어요
-          </span>
+          <span class="form-hint">이름을 입력하지 않으면 '익명'으로 저장됩니다</span>
         </div>
 
         <div class="form-actions">
@@ -277,20 +262,7 @@ window.captureResultAction = async () => {
 
 window.saveToNotion = async () => {
   const userName = document.getElementById('user-name').value.trim() || '익명';
-  const databaseId = document.getElementById('database-id').value.trim();
-  const apiKey = document.getElementById('api-key').value.trim();
   const messageDiv = document.getElementById('notion-message');
-
-  // Validation
-  if (!databaseId) {
-    messageDiv.innerHTML = '<div class="message message-error">Database ID를 입력해주세요.</div>';
-    return;
-  }
-
-  if (!apiKey) {
-    messageDiv.innerHTML = '<div class="message message-error">API Key를 입력해주세요.</div>';
-    return;
-  }
 
   // Show loading
   messageDiv.innerHTML = '<div class="message">노션에 저장하는 중...</div>';
@@ -299,19 +271,35 @@ window.saveToNotion = async () => {
   const result = calculateMBTI(responses);
   const typeInfo = await getMBTIDescription(result.type);
 
-  // Save to Notion
-  const saveResult = await sendToNotion({
-    type: result.type,
-    nickname: typeInfo.nickname,
-    description: typeInfo.description,
-    percentages: result.percentages
-  }, userName, databaseId, apiKey);
+  try {
+    // Call Vercel serverless function
+    const response = await fetch('/api/save-to-notion', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        userName: userName,
+        result: {
+          type: result.type,
+          nickname: typeInfo.nickname,
+          description: typeInfo.description,
+          percentages: result.percentages
+        }
+      })
+    });
 
-  // Show result
-  if (saveResult.success) {
-    messageDiv.innerHTML = '<div class="message message-success">✅ ' + saveResult.message + '</div>';
-  } else {
-    messageDiv.innerHTML = '<div class="message message-error">❌ 저장 실패: ' + saveResult.error + '</div>';
+    const data = await response.json();
+
+    // Show result
+    if (response.ok && data.success) {
+      messageDiv.innerHTML = '<div class="message message-success">✅ ' + data.message + '</div>';
+    } else {
+      messageDiv.innerHTML = '<div class="message message-error">❌ 저장 실패: ' + (data.error || '알 수 없는 오류') + '</div>';
+    }
+  } catch (error) {
+    console.error('Failed to save:', error);
+    messageDiv.innerHTML = '<div class="message message-error">❌ 저장 실패: 네트워크 오류가 발생했습니다.</div>';
   }
 };
 

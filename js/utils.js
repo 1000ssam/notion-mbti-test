@@ -105,7 +105,8 @@ export async function captureResult(elementId = 'result-card') {
   }
 }
 
-// Send to Notion
+// Send to Notion (DEPRECATED - Now using Vercel Function)
+// This function is kept for backward compatibility but not used
 export async function sendToNotion(result, userName, databaseId, apiKey) {
   // Remove dashes from database ID if present
   const cleanDatabaseId = databaseId.replace(/-/g, '');

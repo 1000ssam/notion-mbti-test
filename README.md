@@ -16,7 +16,18 @@ git push -u origin main
 1. [Vercel](https://vercel.com)에 로그인
 2. "New Project" 클릭
 3. GitHub 레포지토리 선택
-4. "Deploy" 클릭
+4. **환경변수 설정** (중요!)
+   - `NOTION_API_KEY`: Notion Integration API Key
+   - `NOTION_DATABASE_ID`: Notion Database ID (32자리)
+5. "Deploy" 클릭
+
+### 3. 환경변수 설정 방법
+Vercel 대시보드 → 프로젝트 선택 → Settings → Environment Variables
+
+| 변수명 | 값 |
+|--------|-----|
+| `NOTION_API_KEY` | secret_xxxxxxxxxxxxxxxxxxxxxxx |
+| `NOTION_DATABASE_ID` | 32자리 Database ID |
 
 끝! 몇 분 안에 배포 완료됩니다.
 
