@@ -38,33 +38,18 @@ export default async function handler(req, res) {
       body: JSON.stringify({
         parent: { database_id: NOTION_DATABASE_ID },
         properties: {
-          '이름': {
+          '닉네임': {
             title: [{ text: { content: userName || '익명' } }]
           },
-          'MBTI': {
-            rich_text: [{ text: { content: result.type } }]
+          '노션 MBTI': {
+            select: { name: `${result.type} - ${result.nickname}` }
           },
-          '별명': {
-            rich_text: [{ text: { content: result.nickname } }]
-          },
-          '설명': {
-            rich_text: [{ text: { content: result.description } }]
-          },
-          '날짜': {
-            date: { start: new Date().toISOString().split('T')[0] }
-          },
-          'E/I': {
-            number: result.percentages.EI.E
-          },
-          'S/N': {
-            number: result.percentages.SN.S
-          },
-          'T/F': {
-            number: result.percentages.TF.T
-          },
-          'J/P': {
-            number: result.percentages.JP.J
-          },
+          '온보딩 완료 일시': {
+            date: {
+              start: new Date().toISOString(),
+              time_zone: 'Asia/Seoul'
+            }
+          }
         },
       }),
     });
