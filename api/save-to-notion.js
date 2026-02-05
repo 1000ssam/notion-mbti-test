@@ -19,6 +19,9 @@ export default async function handler(req, res) {
     });
   }
 
+  // Remove dashes from database ID if present
+  const cleanDatabaseId = NOTION_DATABASE_ID.replace(/-/g, '');
+
   // Get data from request body
   const { userName, result } = req.body;
 
@@ -36,7 +39,7 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        parent: { database_id: NOTION_DATABASE_ID },
+        parent: { database_id: cleanDatabaseId },
         properties: {
           '닉네임': {
             title: [{ text: { content: userName || '익명' } }]
