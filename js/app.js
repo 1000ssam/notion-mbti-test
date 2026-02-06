@@ -114,7 +114,7 @@ function renderStartPage() {
       </div>
 
       <div class="footer fade-in fade-in-delay-4">
-        <p>Made with care for Notion Lovers</p>
+        <p>&copy; Notiontalk</p>
       </div>
     </div>
   `;
@@ -251,13 +251,13 @@ async function renderResultPage() {
         </p>
 
         <div class="form-group">
-          <label class="form-label">이름 (선택)</label>
-          <input type="text" id="user-name" class="form-input" placeholder="홍길동">
-          <span class="form-hint">이름을 입력하지 않으면 '익명'으로 저장됩니다</span>
+          <label class="form-label">닉네임</label>
+          <input type="text" id="user-name" class="form-input" placeholder="닉네임을 입력해주세요" oninput="window.onNicknameInput()">
+          <span class="form-hint">닉네임을 입력해야 저장할 수 있어요</span>
         </div>
 
         <div class="form-actions">
-          <button class="btn btn-primary" onclick="window.saveToNotion()" style="width: 100%;">
+          <button class="btn btn-primary btn-save-notion" id="btn-save-notion" onclick="window.saveToNotion()" style="width: 100%;" disabled>
             노션에 저장하기
           </button>
         </div>
@@ -266,7 +266,7 @@ async function renderResultPage() {
       </div>
 
       <div class="footer">
-        <p>Made with care for Notion Lovers</p>
+        <p>&copy; Notiontalk</p>
       </div>
     </div>
   `;
@@ -337,7 +337,7 @@ window.previousQuestion = () => {
 window.retakeTest = () => {
   currentQuestionIndex = 0;
   responses = [];
-  window.location.hash = '#test';
+  window.location.hash = '#start';
 };
 
 window.shareResultAction = async () => {
@@ -360,8 +360,17 @@ window.captureResultAction = async () => {
   }
 };
 
+window.onNicknameInput = () => {
+  const input = document.getElementById('user-name');
+  const btn = document.getElementById('btn-save-notion');
+  if (btn) {
+    btn.disabled = !input.value.trim();
+  }
+};
+
 window.saveToNotion = async () => {
-  const userName = document.getElementById('user-name').value.trim() || '익명';
+  const userName = document.getElementById('user-name').value.trim();
+  if (!userName) return;
   const messageDiv = document.getElementById('notion-message');
 
   messageDiv.innerHTML = `
@@ -396,7 +405,15 @@ window.saveToNotion = async () => {
     const data = await response.json();
 
     if (response.ok && data.success) {
-      messageDiv.innerHTML = '<div class="message message-success">' + data.message + '</div>';
+      messageDiv.innerHTML = `
+        <div class="message message-success">${data.message}</div>
+        <div class="notion-link-card">
+          <p class="notion-link-card-text">노션 교무수첩 종결자가 궁금하다면?</p>
+          <a href="https://ioooss.notion.site/2nd-2fedd1dcd64480778897ff23457a9c1c?source=copy_link" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
+            자세히 알아보기
+          </a>
+        </div>
+      `;
     } else {
       messageDiv.innerHTML = '<div class="message message-error">저장 실패: ' + (data.error || '알 수 없는 오류') + '</div>';
     }

@@ -221,6 +221,19 @@
     margin-top: 20px;
 }
 
+.btn-save-notion:disabled {
+    background: var(--border-color);
+    color: var(--text-light);
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-save-notion:disabled:hover {
+    background: var(--border-color);
+    transform: none;
+    box-shadow: none;
+}
+
 /* ===== Success/Error Messages ===== */
 .message {
     padding: 12px 16px;
@@ -241,6 +254,25 @@
     background: rgba(255, 115, 105, 0.08);
     color: rgba(212, 76, 71, 0.9);
     border: 1px solid rgba(255, 115, 105, 0.2);
+}
+
+/* ===== Notion Link Card ===== */
+.notion-link-card {
+    margin-top: 20px;
+    padding: 24px;
+    background: var(--bg-white);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    text-align: center;
+    animation: modalIn 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.notion-link-card-text {
+    font-size: 0.9375rem;
+    font-weight: 400;
+    color: var(--text-main);
+    margin-bottom: 4px;
+    letter-spacing: -0.02em;
 }
 
 /* ===== Loading State ===== */
