@@ -327,15 +327,15 @@ async function renderResultPage() {
 
       <!-- Notion Integration -->
       <div class="notion-form fade-in fade-in-delay-4">
-        <h3>${icons.save} 노션에 결과 저장하기</h3>
+        <h3>${icons.save} 온보딩 완료하기</h3>
         <p class="form-description">
-          결과를 자동으로 데이터베이스에 저장해드려요
+          참가 신청 시 입력한 이름과 노션 페이스를 등록해주세요
         </p>
 
         <div class="form-group">
-          <label class="form-label">닉네임</label>
-          <input type="text" id="user-name" class="form-input" placeholder="닉네임을 입력해주세요" oninput="window.validateSaveForm()">
-          <span class="form-hint">닉네임을 입력해야 저장할 수 있어요</span>
+          <label class="form-label">성함</label>
+          <input type="text" id="user-name" class="form-input" placeholder="참가 신청 시 입력한 이름" oninput="window.validateSaveForm()">
+          <span class="form-hint">신청서에 작성한 이름과 동일하게 입력해주세요</span>
         </div>
 
         <div class="form-group">
@@ -356,7 +356,7 @@ async function renderResultPage() {
 
         <div class="form-actions">
           <button class="btn btn-primary btn-save-notion" id="btn-save-notion" onclick="window.saveToNotion()" style="width: 100%;" disabled>
-            노션에 저장하기
+            온보딩 완료하기
           </button>
         </div>
 
@@ -512,7 +512,7 @@ window.saveToNotion = async () => {
       <div class="loading-dots" style="margin: 0;">
         <span></span><span></span><span></span>
       </div>
-      노션에 저장하는 중...
+      온보딩 처리 중...
     </div>
   `;
 

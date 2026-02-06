@@ -1,6 +1,6 @@
 /**
  * Vercel Serverless Function - Save MBTI result to Notion
- * Supports Notion File Upload API for face images
+ * Finds existing page by name ("성함") and updates MBTI + face image
  * API Version: 2022-06-28
  */
 
@@ -29,14 +29,53 @@ export default async function handler(req, res) {
   const cleanDatabaseId = NOTION_DATABASE_ID.replace(/-/g, '');
   const { userName, faceImage, result } = req.body;
 
+  if (!userName || !userName.trim()) {
+    return res.status(400).json({ error: '닉네임을 입력해주세요.' });
+  }
+
   if (!result || !result.type) {
     return res.status(400).json({ error: 'Invalid request data' });
   }
 
   try {
-    let fileUploadId = null;
+    // Step 1: Search for existing page by "성함" in the database
+    const searchRes = await fetch(`https://api.notion.com/v1/databases/${cleanDatabaseId}/query`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${NOTION_API_KEY}`,
+        'Notion-Version': '2022-06-28',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        filter: {
+          property: '성함',
+          title: {
+            equals: userName.trim()
+          }
+        }
+      }),
+    });
 
-    // If face image is provided, upload to Notion via File Upload API
+    if (!searchRes.ok) {
+      const err = await searchRes.json();
+      console.error('Search failed:', err);
+      return res.status(searchRes.status).json({
+        error: '데이터베이스 검색 실패: ' + (err.message || '')
+      });
+    }
+
+    const searchData = await searchRes.json();
+
+    if (!searchData.results || searchData.results.length === 0) {
+      return res.status(404).json({
+        error: `"${userName}" 님의 정보를 찾을 수 없습니다. 이름을 다시 확인해주세요.`
+      });
+    }
+
+    const pageId = searchData.results[0].id;
+
+    // Step 2: Upload face image if provided
+    let fileUploadId = null;
     if (faceImage) {
       try {
         fileUploadId = await uploadImageToNotion(faceImage, NOTION_API_KEY);
@@ -46,19 +85,13 @@ export default async function handler(req, res) {
       }
     }
 
-    // Build properties
+    // Step 3: Build update properties
     const properties = {
-      '닉네임': {
-        title: [{ text: { content: userName || '익명' } }]
-      },
       '노션 MBTI': {
-        select: { name: `${result.type} - ${result.nickname}` }
+        select: { name: result.type }
       },
-      '온보딩 완료 일시': {
-        date: {
-          start: new Date().toISOString(),
-          time_zone: 'Asia/Seoul'
-        }
+      '온보딩 완료여부': {
+        checkbox: true
       }
     };
 
@@ -69,38 +102,35 @@ export default async function handler(req, res) {
           {
             type: 'file_upload',
             file_upload: { id: fileUploadId },
-            name: `${userName || 'face'}-notion-face.png`
+            name: `${userName}-notion-face.png`
           }
         ]
       };
     }
 
-    // Create Notion page
-    const response = await fetch('https://api.notion.com/v1/pages', {
-      method: 'POST',
+    // Step 4: Update existing page
+    const updateRes = await fetch(`https://api.notion.com/v1/pages/${pageId}`, {
+      method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${NOTION_API_KEY}`,
         'Notion-Version': '2022-06-28',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        parent: { database_id: cleanDatabaseId },
-        properties,
-      }),
+      body: JSON.stringify({ properties }),
     });
 
-    if (!response.ok) {
-      const error = await response.json();
-      console.error('Notion API Error:', error);
-      return res.status(response.status).json({
-        error: error.message || 'Failed to save to Notion'
+    if (!updateRes.ok) {
+      const error = await updateRes.json();
+      console.error('Notion Update Error:', error);
+      return res.status(updateRes.status).json({
+        error: error.message || 'Failed to update Notion page'
       });
     }
 
-    const data = await response.json();
+    const data = await updateRes.json();
     return res.status(200).json({
       success: true,
-      message: 'Notion에 저장되었습니다!',
+      message: '온보딩이 완료되었습니다!',
       pageId: data.id
     });
 
