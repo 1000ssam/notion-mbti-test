@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   }
 
   const NOTION_API_KEY = process.env.NOTION_API_KEY;
-  const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID;
+  const NOTION_DATABASE_ID = process.env.NOTION_DATABASE_ID_TEST || process.env.NOTION_DATABASE_ID;
 
   if (!NOTION_API_KEY || !NOTION_DATABASE_ID) {
     return res.status(500).json({
