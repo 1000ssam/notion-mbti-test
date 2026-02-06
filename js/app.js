@@ -52,6 +52,9 @@ function handleRoute() {
     case '#start':
       renderStartPage();
       break;
+    case '#face':
+      renderFacePage();
+      break;
     case '#test':
       renderTestPage();
       break;
@@ -73,6 +76,10 @@ const icons = {
   refresh: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>',
   save: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>',
   arrowLeft: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>',
+  arrowRight: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>',
+  externalLink: '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>',
+  upload: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>',
+  image: '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>',
 };
 
 // Render Start Page
@@ -121,6 +128,67 @@ function renderStartPage() {
 
   triggerImmediateFadeIn();
 }
+
+// Render Face Page (Notion Face creation guide)
+function renderFacePage() {
+  const app = document.getElementById('app');
+  app.innerHTML = `
+    <div class="section face-page">
+      <div class="fade-in fade-in-delay-1">
+        <span class="hero-badge">
+          ${icons.sparkle}
+          Step 1
+        </span>
+      </div>
+
+      <h1 class="fade-in fade-in-delay-2">
+        <span class="gradient-text">나만의</span><br>
+        <span class="accent-highlight">노션 페이스</span> 만들기
+      </h1>
+
+      <p class="subtitle fade-in fade-in-delay-3">
+        MBTI 검사 전에 나만의 노션 페이스를 만들어보세요!<br>
+        완성된 이미지는 핸드폰에 저장해두세요.
+      </p>
+
+      <div class="face-guide fade-in fade-in-delay-3">
+        <div class="face-step">
+          <span class="face-step-num">1</span>
+          <span class="face-step-text">아래 버튼을 눌러 노션 페이스를 만드세요</span>
+        </div>
+        <div class="face-step">
+          <span class="face-step-num">2</span>
+          <span class="face-step-text">완성된 이미지를 핸드폰에 저장하세요</span>
+        </div>
+        <div class="face-step">
+          <span class="face-step-num">3</span>
+          <span class="face-step-text">돌아와서 "다음" 버튼을 눌러주세요</span>
+        </div>
+      </div>
+
+      <div class="cta-wrapper fade-in fade-in-delay-4">
+        <a href="https://faces.notion.com" target="_blank" rel="noopener noreferrer" class="btn btn-primary btn-large">
+          ${icons.externalLink} 노션 페이스 만들러 가기
+        </a>
+        <button class="btn btn-secondary btn-large" onclick="window.goToTest()" style="margin-top: 12px;">
+          만들었어요! 다음으로 ${icons.arrowRight}
+        </button>
+      </div>
+
+      <div class="footer fade-in fade-in-delay-4">
+        <p>&copy; Notiontalk</p>
+      </div>
+    </div>
+  `;
+
+  triggerImmediateFadeIn();
+}
+
+window.goToTest = () => {
+  currentQuestionIndex = 0;
+  responses = [];
+  window.location.hash = '#test';
+};
 
 // Render Test Page
 function renderTestPage() {
@@ -252,8 +320,24 @@ async function renderResultPage() {
 
         <div class="form-group">
           <label class="form-label">닉네임</label>
-          <input type="text" id="user-name" class="form-input" placeholder="닉네임을 입력해주세요" oninput="window.onNicknameInput()">
+          <input type="text" id="user-name" class="form-input" placeholder="닉네임을 입력해주세요" oninput="window.validateSaveForm()">
           <span class="form-hint">닉네임을 입력해야 저장할 수 있어요</span>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">노션 페이스 이미지</label>
+          <div class="image-upload-area" id="image-upload-area" onclick="document.getElementById('face-image-input').click()">
+            <input type="file" id="face-image-input" accept="image/*" style="display: none;" onchange="window.onFaceImageSelected(event)">
+            <div class="image-upload-placeholder" id="image-upload-placeholder">
+              ${icons.upload}
+              <span>이미지를 선택해주세요</span>
+            </div>
+            <div class="image-upload-preview" id="image-upload-preview" style="display: none;">
+              <img id="face-image-preview" src="" alt="노션 페이스 미리보기">
+              <button class="image-remove-btn" onclick="event.stopPropagation(); window.removeFaceImage();">&times;</button>
+            </div>
+          </div>
+          <span class="form-hint">faces.notion.com에서 만든 이미지를 업로드해주세요</span>
         </div>
 
         <div class="form-actions">
@@ -322,7 +406,7 @@ function handleAnswer(questionId, selectedOption) {
 window.startTest = () => {
   currentQuestionIndex = 0;
   responses = [];
-  window.location.hash = '#test';
+  window.location.hash = '#face';
 };
 
 window.previousQuestion = () => {
@@ -356,17 +440,63 @@ window.captureResultAction = async () => {
   }
 };
 
-window.onNicknameInput = () => {
+// Face image state
+let faceImageBase64 = null;
+
+window.validateSaveForm = () => {
   const input = document.getElementById('user-name');
   const btn = document.getElementById('btn-save-notion');
   if (btn) {
-    btn.disabled = !input.value.trim();
+    btn.disabled = !(input.value.trim() && faceImageBase64);
   }
+};
+
+window.onFaceImageSelected = (event) => {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  // Max 5MB check
+  if (file.size > 5 * 1024 * 1024) {
+    alert('이미지 크기는 5MB 이하여야 합니다.');
+    return;
+  }
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    faceImageBase64 = e.target.result;
+
+    // Show preview
+    const placeholder = document.getElementById('image-upload-placeholder');
+    const preview = document.getElementById('image-upload-preview');
+    const img = document.getElementById('face-image-preview');
+
+    if (placeholder && preview && img) {
+      img.src = faceImageBase64;
+      placeholder.style.display = 'none';
+      preview.style.display = 'flex';
+    }
+
+    window.validateSaveForm();
+  };
+  reader.readAsDataURL(file);
+};
+
+window.removeFaceImage = () => {
+  faceImageBase64 = null;
+  const input = document.getElementById('face-image-input');
+  const placeholder = document.getElementById('image-upload-placeholder');
+  const preview = document.getElementById('image-upload-preview');
+
+  if (input) input.value = '';
+  if (placeholder) placeholder.style.display = 'flex';
+  if (preview) preview.style.display = 'none';
+
+  window.validateSaveForm();
 };
 
 window.saveToNotion = async () => {
   const userName = document.getElementById('user-name').value.trim();
-  if (!userName) return;
+  if (!userName || !faceImageBase64) return;
   const messageDiv = document.getElementById('notion-message');
 
   messageDiv.innerHTML = `
@@ -389,6 +519,7 @@ window.saveToNotion = async () => {
       },
       body: JSON.stringify({
         userName: userName,
+        faceImage: faceImageBase64,
         result: {
           type: result.type,
           nickname: typeInfo.nickname,
