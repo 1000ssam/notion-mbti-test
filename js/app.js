@@ -425,17 +425,52 @@ window.retakeTest = () => {
 };
 
 window.shareResultAction = async () => {
-  const result = calculateMBTI(responses);
-  const typeInfo = await getMBTIDescription(result.type);
-  await shareResult(result.type, typeInfo.nickname);
+  if (typeof html2canvas === 'undefined') {
+    alert('이미지 라이브러리가 로드되지 않았습니다.');
+    return;
+  }
+
+  const element = document.getElementById('result-card');
+  if (!element) return;
+
+  try {
+    const canvas = await html2canvas(element, {
+      backgroundColor: '#ffffff',
+      scale: 2,
+      logging: false,
+      useCORS: true,
+      allowTaint: true
+    });
+
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
+    const file = new File([blob], 'notion-mbti-result.png', { type: 'image/png' });
+
+    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
+      await navigator.share({
+        title: '노션 MBTI 검사 결과',
+        files: [file]
+      });
+    } else {
+      // Fallback: download image
+      const url = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `notion-mbti-result-${Date.now()}.png`;
+      link.href = url;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+  } catch (error) {
+    if (error.name !== 'AbortError') {
+      console.error('Share failed:', error);
+    }
+  }
 };
 
 window.captureResultAction = async () => {
   const captureResultData = await captureResult('result-card');
 
-  if (captureResultData.success) {
-    alert(captureResultData.message);
-  } else {
+  if (!captureResultData.success) {
     alert('이미지 저장에 실패했습니다: ' + (captureResultData.error || ''));
   }
 };
@@ -534,12 +569,6 @@ window.saveToNotion = async () => {
     if (response.ok && data.success) {
       messageDiv.innerHTML = `
         <div class="message message-success">${data.message}</div>
-        <div class="notion-link-card">
-          <p class="notion-link-card-text">노션 교무수첩 종결자가 궁금하다면?</p>
-          <a href="https://ioooss.notion.site/2nd-2fedd1dcd64480778897ff23457a9c1c?source=copy_link" target="_blank" rel="noopener noreferrer" class="btn btn-primary" style="width: 100%; margin-top: 8px;">
-            자세히 알아보기
-          </a>
-        </div>
       `;
     } else {
       messageDiv.innerHTML = '<div class="message message-error">저장 실패: ' + (data.error || '알 수 없는 오류') + '</div>';
