@@ -343,11 +343,7 @@ window.retakeTest = () => {
 window.shareResultAction = async () => {
   const result = calculateMBTI(responses);
   const typeInfo = await getMBTIDescription(result.type);
-  const shareResultData = await shareResult(result.type, typeInfo.nickname);
-
-  if (shareResultData.success || shareResultData.message) {
-    alert(shareResultData.message || '공유 완료!');
-  }
+  await shareResult(result.type, typeInfo.nickname);
 };
 
 window.captureResultAction = async () => {
