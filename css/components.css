@@ -1,31 +1,64 @@
 /**
- * Components CSS - Buttons, Cards, Progress
+ * Components CSS - Buttons, Cards, Progress, Badges
+ * Lanorx-style Minimal SaaS Aesthetic
  */
 
-/* Buttons */
+/* ===== Hero Badge ===== */
+.hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    background: var(--accent-lighter);
+    border: 1px solid rgba(210, 136, 111, 0.15);
+    border-radius: var(--border-radius-pill);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    color: var(--accent);
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
+}
+
+.hero-badge svg,
+.hero-badge .badge-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+}
+
+/* ===== Buttons ===== */
 .btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 8px;
     padding: 14px 32px;
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.9375rem;
+    font-weight: 400;
     letter-spacing: -0.02em;
     border-radius: var(--border-radius-pill);
     transition: all var(--transition-normal);
     cursor: pointer;
     border: none;
+    position: relative;
+    overflow: hidden;
 }
 
 .btn-primary {
     background: var(--accent);
     color: #fff;
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-primary:hover {
     background: var(--accent-hover);
     transform: translateY(-2px);
     box-shadow: var(--shadow-accent);
+}
+
+.btn-primary:active {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
 }
 
 .btn-secondary {
@@ -36,71 +69,118 @@
 
 .btn-secondary:hover {
     border-color: var(--accent);
+    color: var(--accent);
     transform: translateY(-2px);
     box-shadow: var(--shadow-md);
 }
 
-.btn-large {
-    padding: 18px 40px;
-    font-size: 1.125rem;
+.btn-secondary:active {
+    transform: translateY(0);
 }
 
-/* Cards */
+.btn-large {
+    padding: 18px 44px;
+    font-size: 1.0625rem;
+}
+
+.btn-ghost {
+    background: transparent;
+    color: var(--text-sub);
+    padding: 10px 20px;
+}
+
+.btn-ghost:hover {
+    color: var(--accent);
+    background: var(--accent-lighter);
+}
+
+/* ===== Cards ===== */
 .card {
     background: var(--bg-white);
     border: 1px solid var(--border-color);
     border-radius: var(--border-radius);
-    padding: 24px;
+    padding: 28px;
     box-shadow: var(--shadow-sm);
     transition: all var(--transition-normal);
 }
 
 .card:hover {
     transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    box-shadow: var(--shadow-xl);
+    border-color: transparent;
 }
 
-/* Choice Cards (for World Cup style questions) */
+/* ===== Choice Cards (World Cup Style) ===== */
 .choice-card {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    padding: 40px 24px;
+    gap: 20px;
+    padding: 44px 24px;
     background: var(--bg-white);
-    border: 2px solid var(--border-color);
-    border-radius: var(--border-radius);
+    border: 1.5px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
     cursor: pointer;
     transition: all var(--transition-normal);
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.choice-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(210, 136, 111, 0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity var(--transition-normal);
 }
 
 .choice-card:hover {
     border-color: var(--accent);
-    transform: translateY(-4px);
-    box-shadow: var(--shadow-lg);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-xl);
+}
+
+.choice-card:hover::before {
+    opacity: 1;
+}
+
+.choice-card:active {
+    transform: translateY(-2px) scale(0.98);
 }
 
 .choice-card.selected {
     border-color: var(--accent);
-    background: rgba(210, 136, 111, 0.05);
+    background: var(--accent-lighter);
+    box-shadow: var(--shadow-accent);
 }
 
 .choice-card .emoji {
-    font-size: 4rem;
+    font-size: 3.5rem;
     line-height: 1;
+    position: relative;
+    z-index: 1;
+    transition: transform var(--transition-normal);
+}
+
+.choice-card:hover .emoji {
+    transform: scale(1.1);
 }
 
 .choice-card .text {
-    font-size: 1rem;
-    font-weight: 500;
+    font-size: 0.9375rem;
+    font-weight: 400;
     color: var(--text-main);
-    line-height: 1.5;
+    line-height: 1.6;
     word-break: keep-all;
+    position: relative;
+    z-index: 1;
+    letter-spacing: -0.02em;
 }
 
-/* Progress Bar */
+/* ===== Progress Bar ===== */
 .progress-container {
     width: 100%;
     margin: 24px 0;
@@ -108,8 +188,8 @@
 
 .progress-bar {
     width: 100%;
-    height: 8px;
-    background: var(--bg-subtle);
+    height: 4px;
+    background: var(--border-color);
     border-radius: 999px;
     overflow: hidden;
 }
@@ -118,18 +198,20 @@
     height: 100%;
     background: var(--accent);
     border-radius: 999px;
-    transition: width var(--transition-normal);
+    transition: width var(--transition-slow);
 }
 
 .progress-text {
     display: block;
-    margin-top: 8px;
-    font-size: 0.875rem;
+    margin-top: 12px;
+    font-size: 0.8125rem;
+    font-weight: 300;
     color: var(--text-light);
     text-align: center;
+    letter-spacing: 0.04em;
 }
 
-/* Score Bar (for result page) */
+/* ===== Score Bar (Result Page) ===== */
 .score-bar-container {
     width: 100%;
     margin: 16px 0;
@@ -139,8 +221,8 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 8px;
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.8125rem;
+    font-weight: 400;
     color: var(--text-main);
 }
 
@@ -160,35 +242,35 @@
     transition: width var(--transition-slow);
 }
 
-/* Result Badge */
+/* ===== Result Badge ===== */
 .result-badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     padding: 8px 20px;
-    background: rgba(210, 136, 111, 0.15);
+    background: var(--accent-light);
     color: var(--accent);
-    font-weight: 600;
-    font-size: 0.875rem;
+    font-weight: 500;
+    font-size: 0.8125rem;
     border-radius: var(--border-radius-pill);
     letter-spacing: -0.01em;
 }
 
-/* Navigation Buttons */
+/* ===== Navigation Buttons ===== */
 .nav-buttons {
     display: flex;
     gap: 12px;
     justify-content: center;
-    margin-top: 32px;
+    margin-top: 40px;
 }
 
-/* Loading Spinner */
+/* ===== Loading Spinner ===== */
 .spinner {
-    border: 3px solid var(--bg-subtle);
-    border-top: 3px solid var(--accent);
+    border: 2px solid var(--border-color);
+    border-top: 2px solid var(--accent);
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     animation: spin 0.8s linear infinite;
     margin: 0 auto;
 }
@@ -196,4 +278,99 @@
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
+}
+
+/* ===== VS Divider ===== */
+.vs-divider {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+    position: relative;
+}
+
+.vs-divider::before,
+.vs-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border-color);
+}
+
+.vs-divider span {
+    padding: 0 16px;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-light);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+
+/* ===== Decorative Dot Grid ===== */
+.dot-pattern {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-image: radial-gradient(circle, var(--border-color) 1px, transparent 1px);
+    background-size: 16px 16px;
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* ===== FAQ Accordion ===== */
+.faq-item {
+    border-bottom: 1px solid var(--border-color);
+    overflow: hidden;
+}
+
+.faq-question {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 20px 0;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+    transition: color var(--transition-fast);
+}
+
+.faq-question:hover {
+    color: var(--accent);
+}
+
+.faq-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    transition: transform var(--transition-normal);
+    color: var(--text-light);
+}
+
+.faq-item.open .faq-icon {
+    transform: rotate(45deg);
+    color: var(--accent);
+}
+
+.faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-slow), padding var(--transition-slow);
+    padding: 0;
+}
+
+.faq-item.open .faq-answer {
+    max-height: 200px;
+    padding: 0 0 20px;
+}
+
+.faq-answer p {
+    font-size: 0.9375rem;
+    color: var(--text-sub);
+    line-height: 1.7;
 }
