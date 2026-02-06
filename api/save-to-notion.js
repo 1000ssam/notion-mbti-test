@@ -50,7 +50,7 @@ export default async function handler(req, res) {
         filter: {
           property: '성함',
           title: {
-            equals: userName.trim()
+            contains: userName.trim()
           }
         }
       }),
