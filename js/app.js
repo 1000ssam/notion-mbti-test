@@ -5,7 +5,7 @@
 
 import { questions } from './questions.js';
 import { calculateMBTI, getMBTIDescription } from './mbti-calculator.js';
-import { saveResponses, loadResponses, shareResult, captureResult, sendToNotion } from './utils.js';
+import { saveResponses, loadResponses, captureResult, sendToNotion } from './utils.js';
 
 // App State
 let currentQuestionIndex = 0;
@@ -90,28 +90,39 @@ function renderStartPage() {
       <div class="fade-in fade-in-delay-1">
         <span class="hero-badge">
           ${icons.sparkle}
-          노션 사용 성향 분석
+          Notiontalk 2nd Meetup
         </span>
       </div>
 
       <h1 class="fade-in fade-in-delay-2">
-        <span class="gradient-text">당신의 노션</span><br>
-        <span class="accent-highlight">MBTI</span>는?
+        <span class="gradient-text">노션톡 2nd 밋업</span><br>
+        <span class="accent-highlight">온보딩</span>
       </h1>
 
       <p class="subtitle fade-in fade-in-delay-3">
-        12개의 이상형 월드컵으로 알아보는<br>
-        나만의 노션 사용 스타일
+        나만의 노션 페이스를 만들고<br>
+        노션 MBTI를 알아보세요
       </p>
+
+      <div class="onboarding-steps fade-in fade-in-delay-3">
+        <div class="onboarding-step">
+          <span class="onboarding-step-num">1</span>
+          <span class="onboarding-step-text">노션 페이스 만들기</span>
+        </div>
+        <div class="onboarding-step">
+          <span class="onboarding-step-num">2</span>
+          <span class="onboarding-step-text">노션 MBTI 검사</span>
+        </div>
+      </div>
 
       <div class="cta-wrapper fade-in fade-in-delay-4">
         <button class="btn btn-primary btn-large" onclick="window.startTest()">
-          검사 시작하기
+          시작하기
         </button>
         <div class="meta-info">
           <span class="meta-item">
             ${icons.clock}
-            약 2분 소요
+            약 3분 소요
           </span>
           <span class="meta-item">
             ${icons.questions}
@@ -137,7 +148,7 @@ function renderFacePage() {
       <div class="fade-in fade-in-delay-1">
         <span class="hero-badge">
           ${icons.sparkle}
-          Step 1
+          Step 1 / 2
         </span>
       </div>
 
@@ -203,6 +214,12 @@ function renderTestPage() {
   const app = document.getElementById('app');
   app.innerHTML = `
     <div class="section test-page">
+      <div class="fade-in" style="text-align: center; margin-bottom: 8px;">
+        <span class="hero-badge">
+          ${icons.sparkle}
+          Step 2 / 2 — 노션 MBTI
+        </span>
+      </div>
       <div class="progress-container fade-in">
         <div class="progress-bar">
           <div class="progress-fill" style="width: ${progress}%"></div>
@@ -300,10 +317,7 @@ async function renderResultPage() {
       </div>
 
       <div class="result-actions fade-in fade-in-delay-4">
-        <button class="btn btn-primary" onclick="window.shareResultAction()">
-          ${icons.share} 결과 공유하기
-        </button>
-        <button class="btn btn-secondary" onclick="window.captureResultAction()">
+        <button class="btn btn-primary" onclick="window.captureResultAction()">
           ${icons.camera} 이미지 저장
         </button>
         <button class="btn btn-secondary" onclick="window.retakeTest()">
@@ -422,49 +436,6 @@ window.retakeTest = () => {
   currentQuestionIndex = 0;
   responses = [];
   window.location.hash = '#start';
-};
-
-window.shareResultAction = async () => {
-  if (typeof html2canvas === 'undefined') {
-    alert('이미지 라이브러리가 로드되지 않았습니다.');
-    return;
-  }
-
-  const element = document.getElementById('result-card');
-  if (!element) return;
-
-  try {
-    const canvas = await html2canvas(element, {
-      backgroundColor: '#ffffff',
-      scale: 2,
-      logging: false,
-      useCORS: true,
-      allowTaint: true
-    });
-
-    const blob = await new Promise(resolve => canvas.toBlob(resolve, 'image/png'));
-    const file = new File([blob], 'notion-mbti-result.png', { type: 'image/png' });
-
-    if (navigator.share && navigator.canShare && navigator.canShare({ files: [file] })) {
-      await navigator.share({
-        title: '노션 MBTI 검사 결과',
-        files: [file]
-      });
-    } else {
-      // Fallback: download image
-      const url = canvas.toDataURL('image/png');
-      const link = document.createElement('a');
-      link.download = `notion-mbti-result-${Date.now()}.png`;
-      link.href = url;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    }
-  } catch (error) {
-    if (error.name !== 'AbortError') {
-      console.error('Share failed:', error);
-    }
-  }
 };
 
 window.captureResultAction = async () => {

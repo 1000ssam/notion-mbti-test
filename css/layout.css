@@ -76,6 +76,43 @@
     color: var(--text-light);
 }
 
+/* ===== Onboarding Steps (Start Page) ===== */
+.onboarding-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 280px;
+    margin: 0 auto 40px;
+    text-align: left;
+}
+
+.onboarding-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.onboarding-step-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    background: var(--accent);
+    color: #fff;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 600;
+    flex-shrink: 0;
+}
+
+.onboarding-step-text {
+    font-size: 0.9375rem;
+    font-weight: 300;
+    color: var(--text-sub);
+    letter-spacing: -0.02em;
+}
+
 /* ===== Face Page (Notion Face Guide) ===== */
 .face-page {
     text-align: center;
