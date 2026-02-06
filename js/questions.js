@@ -8,13 +8,13 @@ export const questions = [
     id: 1,
     dimension: 'EI',
     optionA: {
-      text: '팀 프로젝트를 관리하는\n공유 워크스페이스',
+      text: '팀원들과 브레인스토밍하며\n아이디어 발전시키기',
       emoji: '👥',
       scale: 'E'
     },
     optionB: {
-      text: '나만의 생각을 정리하는\n개인 노트',
-      emoji: '📔',
+      text: '조용히 혼자 깊게\n생각 정리하기',
+      emoji: '🎧',
       scale: 'I'
     }
   },
@@ -22,13 +22,13 @@ export const questions = [
     id: 2,
     dimension: 'EI',
     optionA: {
-      text: '팀원들과 실시간으로\n함께 편집',
-      emoji: '✍️',
+      text: '모르는 건 바로\n커뮤니티에 질문하기',
+      emoji: '🙋',
       scale: 'E'
     },
     optionB: {
-      text: '혼자 조용히\n문서 작성',
-      emoji: '🤫',
+      text: '스스로 검색하고\n시행착오로 해결하기',
+      emoji: '🔎',
       scale: 'I'
     }
   },
@@ -36,13 +36,13 @@ export const questions = [
     id: 3,
     dimension: 'EI',
     optionA: {
-      text: '회의록을 공유하고\n피드백 받기',
-      emoji: '💬',
+      text: '작업 과정을\n실시간 공유하며 진행',
+      emoji: '📢',
       scale: 'E'
     },
     optionB: {
-      text: '독서 노트를\n개인 라이브러리에 보관',
-      emoji: '📚',
+      text: '완성된 결과물만\n깔끔하게 공유',
+      emoji: '📝',
       scale: 'I'
     }
   },
@@ -52,12 +52,12 @@ export const questions = [
     id: 4,
     dimension: 'SN',
     optionA: {
-      text: '오늘 할 일\n체크리스트',
+      text: '오늘 할 일을\n하나씩 체크하는 노션',
       emoji: '✅',
       scale: 'S'
     },
     optionB: {
-      text: '떠오르는 아이디어\n메모장',
+      text: '떠오르는 아이디어를\n자유롭게 쏟아내는 노션',
       emoji: '💡',
       scale: 'N'
     }
@@ -66,13 +66,13 @@ export const questions = [
     id: 5,
     dimension: 'SN',
     optionA: {
-      text: '월간 캘린더로\n일정 관리',
-      emoji: '📅',
+      text: '검증된 템플릿을\n그대로 활용하기',
+      emoji: '📋',
       scale: 'S'
     },
     optionB: {
-      text: '영감을 주는\n이미지 갤러리',
-      emoji: '🎨',
+      text: '나만의 시스템을\n처음부터 실험하기',
+      emoji: '🧪',
       scale: 'N'
     }
   },
@@ -80,13 +80,13 @@ export const questions = [
     id: 6,
     dimension: 'SN',
     optionA: {
-      text: '프로젝트 진행 상황\n트래킹',
+      text: '숫자와 데이터로\n현황을 한눈에 파악',
       emoji: '📊',
       scale: 'S'
     },
     optionB: {
-      text: '미래 비전과\n목표 기록',
-      emoji: '🌟',
+      text: '영감 모음과\n무드보드로 방향 설정',
+      emoji: '🌌',
       scale: 'N'
     }
   },
@@ -96,13 +96,13 @@ export const questions = [
     id: 7,
     dimension: 'TF',
     optionA: {
-      text: '복잡한 데이터베이스\n구조',
+      text: '장단점을 표로 정리해서\n논리적으로 결정',
       emoji: '🗂️',
       scale: 'T'
     },
     optionB: {
-      text: '예쁜 레이아웃과\n디자인',
-      emoji: '✨',
+      text: '사람들 경험담을 듣고\n직감으로 결정',
+      emoji: '💬',
       scale: 'F'
     }
   },
@@ -110,13 +110,13 @@ export const questions = [
     id: 8,
     dimension: 'TF',
     optionA: {
-      text: '필터와 정렬로\n정보 분석',
-      emoji: '🔍',
+      text: '데이터베이스 속성을\n꼼꼼하게 설계',
+      emoji: '📐',
       scale: 'T'
     },
     optionB: {
-      text: '감성적인\n커버 이미지 선택',
-      emoji: '🖼️',
+      text: '컬러와 아이콘으로\n분위기부터 세팅',
+      emoji: '🎨',
       scale: 'F'
     }
   },
@@ -124,13 +124,13 @@ export const questions = [
     id: 9,
     dimension: 'TF',
     optionA: {
-      text: '포뮬러로\n자동화된 계산',
-      emoji: '🧮',
+      text: '자동화와 연동으로\n효율을 극대화',
+      emoji: '⚙️',
       scale: 'T'
     },
     optionB: {
-      text: '손글씨 느낌의\n폰트와 아이콘',
-      emoji: '🎀',
+      text: '하나하나 직접 채워가는\n손맛의 즐거움',
+      emoji: '✍️',
       scale: 'F'
     }
   },
@@ -140,12 +140,12 @@ export const questions = [
     id: 10,
     dimension: 'JP',
     optionA: {
-      text: '미리 설계된\n페이지 구조',
+      text: '시작 전에 구조부터\n완벽하게 설계',
       emoji: '🏗️',
       scale: 'J'
     },
     optionB: {
-      text: '필요할 때마다\n추가하는 페이지',
+      text: '일단 시작하고\n하면서 구조를 잡아가기',
       emoji: '🌱',
       scale: 'P'
     }
@@ -154,13 +154,13 @@ export const questions = [
     id: 11,
     dimension: 'JP',
     optionA: {
-      text: '완성도 높은\n템플릿 사용',
-      emoji: '📋',
+      text: '주간/월간 리뷰로\n꾸준히 정리하는 편',
+      emoji: '📅',
       scale: 'J'
     },
     optionB: {
-      text: '빈 페이지에서\n자유롭게 시작',
-      emoji: '📄',
+      text: '정리는 필요할 때\n몰아서 한번에',
+      emoji: '🌊',
       scale: 'P'
     }
   },
@@ -168,12 +168,12 @@ export const questions = [
     id: 12,
     dimension: 'JP',
     optionA: {
-      text: '체계적인 폴더와\n카테고리',
+      text: '모든 페이지에\n명확한 분류 체계',
       emoji: '🗃️',
       scale: 'J'
     },
     optionB: {
-      text: '유연하게 연결되는\n링크',
+      text: '분류보다는 검색과\n링크로 빠르게 찾기',
       emoji: '🔗',
       scale: 'P'
     }
