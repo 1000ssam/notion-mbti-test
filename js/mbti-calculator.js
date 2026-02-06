@@ -24,23 +24,28 @@ export function calculateMBTI(responses) {
     scores.J > scores.P ? 'J' : (scores.J === scores.P ? 'J' : 'P'),
   ].join('');
 
-  // Calculate percentages (out of 3 questions per dimension)
+  // Calculate percentages (each pair sums to 100%)
+  const totalEI = scores.E + scores.I || 1;
+  const totalSN = scores.S + scores.N || 1;
+  const totalTF = scores.T + scores.F || 1;
+  const totalJP = scores.J + scores.P || 1;
+
   const percentages = {
     EI: {
-      E: Math.round((scores.E / 3) * 100),
-      I: Math.round((scores.I / 3) * 100)
+      E: Math.round((scores.E / totalEI) * 100),
+      I: Math.round((scores.I / totalEI) * 100)
     },
     SN: {
-      S: Math.round((scores.S / 3) * 100),
-      N: Math.round((scores.N / 3) * 100)
+      S: Math.round((scores.S / totalSN) * 100),
+      N: Math.round((scores.N / totalSN) * 100)
     },
     TF: {
-      T: Math.round((scores.T / 3) * 100),
-      F: Math.round((scores.F / 3) * 100)
+      T: Math.round((scores.T / totalTF) * 100),
+      F: Math.round((scores.F / totalTF) * 100)
     },
     JP: {
-      J: Math.round((scores.J / 3) * 100),
-      P: Math.round((scores.P / 3) * 100)
+      J: Math.round((scores.J / totalJP) * 100),
+      P: Math.round((scores.P / totalJP) * 100)
     },
   };
 

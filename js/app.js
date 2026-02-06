@@ -148,7 +148,7 @@ function renderFacePage() {
       <div class="fade-in fade-in-delay-1">
         <span class="hero-badge">
           ${icons.sparkle}
-          Step 1 / 2
+          Step 1
         </span>
       </div>
 
@@ -217,7 +217,7 @@ function renderTestPage() {
       <div class="fade-in" style="text-align: center; margin-bottom: 8px;">
         <span class="hero-badge">
           ${icons.sparkle}
-          Step 2 / 2 — 노션 MBTI
+          Step 2
         </span>
       </div>
       <div class="progress-container fade-in">
@@ -404,6 +404,8 @@ function renderScoreDimension(leftKey, rightKey, leftLabel, rightLabel, percenta
 
 // Handle answer selection
 function handleAnswer(questionId, selectedOption) {
+  // Remove any existing answer for this question to prevent duplicates
+  responses = responses.filter(r => r.questionId !== questionId);
   responses.push({ questionId, selectedOption });
   saveResponses(responses);
 
