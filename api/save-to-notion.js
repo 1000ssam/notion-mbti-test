@@ -88,7 +88,7 @@ export default async function handler(req, res) {
     // Step 3: Build update properties
     const properties = {
       '노션 MBTI': {
-        select: { name: result.type }
+        select: { name: `${result.type} - ${result.nickname}` }
       },
       '온보딩 완료여부': {
         checkbox: true
