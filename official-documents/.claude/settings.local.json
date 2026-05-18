@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(document-organizer)",
+      "Skill(document-organizer:*)",
+      "Bash(node:*)",
+      "Bash(where:*)",
+      "Bash(powershell.exe -Command \"node --version\")"
+    ]
+  }
+}
